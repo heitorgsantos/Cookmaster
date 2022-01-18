@@ -20,7 +20,7 @@ const validateCreateService = async (name, email, password, role) => {
   const user = await creatUsersModel(name, email, password, role);
 
   if (user === 'Already exists') return alert('Email already registered', 409);
-  
+
   if (validation(email, name, password)) return alert(undefined, 400);
 
   if (!validateEmail(email)) return alert(undefined, 400);
