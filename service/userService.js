@@ -15,8 +15,8 @@ const validateEmail = (email) => {
 const validation = (email, name, password) => {
   if (!name || !email || !password) return true;
 };
-const validateCreateService = async (name, email, password, role) => {
 
+const validateCreateService = async (name, email, password, role) => {
   const user = await creatUsersModel(name, email, password, role);
 
   if (user === 'Already exists') return alert('Email already registered', 409);
