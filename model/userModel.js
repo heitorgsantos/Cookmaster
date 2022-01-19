@@ -14,6 +14,15 @@ const creatUsersModel = async (name, email, password, role = 'user') => {
   };
 };
 
+const findUserModel = async (email, _password) => {
+  const conn = await connect();
+  const findUser = await conn.collection('users').findOne({ email, _password });
+  if (!findUser) return 'Incorrect username or password';
+  console.log(findUser, 'entrou no model');
+  return findUser;
+};
+
 module.exports = {
   creatUsersModel,
+  findUserModel,
 };
