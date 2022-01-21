@@ -1,4 +1,4 @@
-const { creatUsersModel, findUserModel } = require('../model/userModel');
+const { creatUsersModel, findUserModel, insertRecipesModel } = require('../model/userModel');
 const authService = require('./authService');
 
 const alert = (message = 'Invalid entries. Try again.', status = 400) => ({
@@ -37,7 +37,6 @@ const findUserService = async (email, password) => {
   if (!email || !password) return alert('All fields must be filled', 401);
 
   const findUser = await findUserModel(email);
-  console.log(findUser, 'entrou no service');
 
   if (findUser.email !== email || findUser.password !== password) {
     return alert('Incorrect username or password', 401);
@@ -46,13 +45,17 @@ const findUserService = async (email, password) => {
   const { password: _password, ...userLog } = findUser;
   
   const token = authService.genToken(userLog);
-  console.log(userLog, 'entrou no find');
-  console.log(token, 'entrou no token');
 
   return { token };
 };
 
+const insertRecipesService = async (name, ingredients, preparation, user) => {
+  const recipes = await insertRecipesModel(name, ingredients, preparation, user);
+  if (!name || !ingredients || !preparation) return alert('Invalid entries. Try again.', 400);
+  return { recipes };
+};
 module.exports = {
   validateCreateService,
   findUserService,
+  insertRecipesService,
 };

@@ -9,6 +9,18 @@ const JWT_CONFIG = {
 
 const genToken = (data) => jwt.sign({ data }, API_SECRET, JWT_CONFIG);
 
+const verifyToken = (token) => {
+  try {
+    const decoded = jwt.verify(token, API_SECRET);
+    const name = decoded.data;
+    return name;
+  } catch (error) {
+    console.log('Falha no token');
+    return null;
+  }
+};
+
 module.exports = {
   genToken,
+  verifyToken, 
 };

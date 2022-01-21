@@ -1,4 +1,7 @@
-const { validateCreateService, findUserService } = require('../service/userService');
+const { 
+  validateCreateService, 
+  findUserService, 
+  insertRecipesService } = require('../service/userService');
 
 const createUserController = async (req, res, _next) => {
   const { email, name, password, role } = req.body;
@@ -11,14 +14,29 @@ const createUserController = async (req, res, _next) => {
   }
 };
 
+// login usuário
 const findUserController = async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const token = await findUserService(email, password);
-    console.log(token, 'entrou no controller');
      if (token.err) return res.status(token.status).json(token.err);
     return res.status(200).json(token);
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const insertRecipesController = async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  const { user } = req;
+  console.log(user, 'entrou no user');
+
+  try {
+    const { err, status, recipes } = await insertRecipesService(name, 
+      ingredients, preparation, user);
+    if (err) return res.status(status).json(err);
+    return res.status(201).json(recipes);
   } catch (error) {
     return error.message;
   }
@@ -27,4 +45,5 @@ const findUserController = async (req, res) => {
 module.exports = {
   createUserController,
   findUserController,
+  insertRecipesController,
 };

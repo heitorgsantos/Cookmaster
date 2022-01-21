@@ -1,5 +1,9 @@
 const express = require('express');
-const { createUserController, findUserController } = require('../../controller/userControler');
+const { 
+  createUserController,
+   findUserController, 
+   insertRecipesController } = require('../../controller/userControler');
+const auth = require('../../middlewares/auth');
 
 const app = express();
 app.use(express.json());
@@ -12,6 +16,8 @@ app.get('/', (request, response) => {
 app.post('/users', createUserController);
 
 app.post('/login', findUserController);
+
+app.post('/recipes', auth, insertRecipesController);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 

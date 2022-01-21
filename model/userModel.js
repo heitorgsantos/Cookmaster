@@ -22,7 +22,24 @@ const findUserModel = async (email, _password) => {
   return findUser;
 };
 
+const insertRecipesModel = async (name, ingredients, preparation, user) => {
+  const conn = await connect();
+  const { _id } = user; 
+  console.log(_id);
+  const insertRecipes = await conn.collection('recipes')
+  .insertOne({ name, ingredients, preparation, userId: _id });
+  return { recipe: {
+    name,
+    ingredients,
+    preparation,
+    userId: _id,
+    _id: insertRecipes.insertedId,
+  },
+  };
+};
+
 module.exports = {
   creatUsersModel,
   findUserModel,
+  insertRecipesModel,
 };
