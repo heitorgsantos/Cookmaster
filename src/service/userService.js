@@ -63,14 +63,14 @@ const insertRecipesService = async (name, ingredients, preparation, user) => {
 
 const findRecipesService = async () => {
   const findRecipes = await findRecipesModel();
-  console.log(findRecipes, 'service');
   return { findRecipes };
 };
 
 const findOneService = async (id) => {
   const findId = await findOneRecipesModel(id);
-  if (!findId) return alert('recipe note found', 404);
-  return findId;
+  if (!findId) return alert('recipe not found', 404);
+  console.log(findId, 'entrou no service');
+  return { findId };
 };
 
 module.exports = {

@@ -19,14 +19,12 @@ const findUserModel = async (email, _password) => {
   const conn = await connect();
   const findUser = await conn.collection('users').findOne({ email, _password });
   if (!findUser) return 'Incorrect username or password';
-  console.log(findUser, 'entrou no model');
   return findUser;
 };
 
 const insertRecipesModel = async (name, ingredients, preparation, user) => {
   const conn = await connect();
   const { _id } = user; 
-  console.log(_id);
   const insertRecipes = await conn.collection('recipes')
   .insertOne({ name, ingredients, preparation, userId: _id });
   return { recipe: {
@@ -45,13 +43,14 @@ const findRecipesModel = async () => {
   const conn = await connect();
   const findRecipes = await conn.collection('recipes').find({}).toArray();
   
-  console.log(findRecipes, 'entrou findRecipes');
   return findRecipes;
 };
 
 const findOneRecipesModel = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
   const conn = await connect();
-  const findId = await conn.collection('sales').findOne({ _id: ObjectId(id) });
+  const findId = await conn.collection('recipes').findOne({ _id: ObjectId(id) });
+  console.log(findId, 'entrou no model');
   return findId;
 };
 

@@ -38,7 +38,6 @@ const insertRecipesController = async (req, res) => {
     const { err, status, findRecipes } = await insertRecipesService(name, 
       ingredients, preparation, user);
     if (err) return res.status(status).json(err);
-    console.log(findRecipes, 'entrou no insert');
     return res.status(201).json(findRecipes);
   } catch (error) {
     return error.message;
@@ -49,7 +48,6 @@ const insertRecipesController = async (req, res) => {
 const findRecipesController = async (_req, res) => {
   try {
     const { findRecipes } = await findRecipesService();
-    console.log(findRecipes, 'controller');
     return res.status(200).json(findRecipes);
   } catch (error) {
     return error.message;
@@ -60,6 +58,7 @@ const findIdController = async (req, res) => {
   const { id } = req.params;
   try {
     const { err, status, findId } = await findOneService(id);
+    console.log(err, status, findId, 'findiId');
     if (err) return res.status(status).json(err);
     return res.status(200).json(findId);
   } catch (error) {

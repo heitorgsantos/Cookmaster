@@ -23,7 +23,7 @@ app.post('/recipes', auth, insertRecipesController);
 
 app.get('/recipes', withOutLogin, findRecipesController);
 
-app.get('recipes/:id', withOutLogin, findIdController);
+app.get('/recipes/:id', withOutLogin, findIdController);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 
