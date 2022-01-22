@@ -38,8 +38,19 @@ const insertRecipesModel = async (name, ingredients, preparation, user) => {
   };
 };
 
+// listagem de receitas RECIPES
+
+const findRecipesModel = async () => {
+  const conn = await connect();
+  const findRecipes = await conn.collection('recipes').find({}).toArray();
+  
+  console.log(findRecipes, 'entrou findRecipes');
+  return findRecipes;
+};
+
 module.exports = {
   creatUsersModel,
   findUserModel,
   insertRecipesModel,
+  findRecipesModel,
 };

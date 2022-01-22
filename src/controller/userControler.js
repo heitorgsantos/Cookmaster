@@ -1,7 +1,8 @@
 const { 
   validateCreateService, 
   findUserService, 
-  insertRecipesService } = require('../service/userService');
+  insertRecipesService, 
+  findRecipesService } = require('../service/userService');
 
 const createUserController = async (req, res, _next) => {
   const { email, name, password, role } = req.body;
@@ -42,8 +43,19 @@ const insertRecipesController = async (req, res) => {
   }
 };
 
+// listagem de receitas RECIPES
+const findRecipesController = async (_req, res) => {
+  try {
+    const { findRecipes } = await findRecipesService();
+    console.log(findRecipes, 'controller');
+    return res.status(200).json(findRecipes);
+  } catch (error) {
+    return error.message;
+  }
+};
 module.exports = {
   createUserController,
   findUserController,
   insertRecipesController,
+  findRecipesController,
 };

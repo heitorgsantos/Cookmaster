@@ -15,7 +15,6 @@ const verifyToken = (token) => {
     const name = decoded.data;
     return name;
   } catch (error) {
-    console.log('Falha no token');
     return null;
   }
 };
