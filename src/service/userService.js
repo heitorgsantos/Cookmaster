@@ -1,7 +1,8 @@
 const { creatUsersModel,
    findUserModel, 
    insertRecipesModel, 
-   findRecipesModel } = require('../model/userModel');
+   findRecipesModel, 
+   findOneRecipesModel } = require('../model/userModel');
 const authService = require('./authService');
 
 const alert = (message = 'Invalid entries. Try again.', status = 400) => ({
@@ -55,7 +56,7 @@ const findUserService = async (email, password) => {
 const insertRecipesService = async (name, ingredients, preparation, user) => {
   const findRecipes = await insertRecipesModel(name, ingredients, preparation, user);
   if (!name || !ingredients || !preparation) return alert('Invalid entries. Try again.', 400);
-  return findRecipes;
+  return { findRecipes };
 };
 
 // listagem de receitas RECIPES
@@ -65,9 +66,17 @@ const findRecipesService = async () => {
   console.log(findRecipes, 'service');
   return { findRecipes };
 };
+
+const findOneService = async (id) => {
+  const findId = await findOneRecipesModel(id);
+  if (!findId) return alert('recipe note found', 404);
+  return findId;
+};
+
 module.exports = {
   validateCreateService,
   findUserService,
   insertRecipesService,
   findRecipesService,
+  findOneService,
 };
