@@ -1,4 +1,6 @@
 const express = require('express');
+const path = require('path');
+const uploads = require('../config/multer');
 const { 
   createUserController,
    findUserController, 
@@ -6,11 +8,13 @@ const {
    findRecipesController, 
    findIdController, 
    deleteOneIdController, 
-   editRecipesController } = require('../controller/userControler');
+   editRecipesController, 
+   imagesController } = require('../controller/userControler');
 const { auth, withOutLogin } = require('../middlewares/auth');
 
 const app = express();
 app.use(express.json());
+app.use('/images', express.static(path.join(__dirname, '..', '/uploads')));
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -31,7 +35,7 @@ app.put('/recipes/:id', auth, editRecipesController);
 
 app.delete('/recipes/:id', auth, deleteOneIdController);
 
-// app.put('/recipes/:id/image/', auth, imagesController);
+app.put('/recipes/:id/image/', auth, uploads, imagesController);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 

@@ -6,6 +6,7 @@ const {
   findOneService, 
   editRecipesService, 
   deleteOneIdService, 
+  imagesService,
    } = require('../service/userService');
 
 const createUserController = async (req, res, _next) => {
@@ -88,6 +89,17 @@ const deleteOneIdController = async (req, res) => {
   }
 };
 
+const imagesController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { filename } = req.file;
+    const imageRecipe = await imagesService(id, filename);
+    return res.status(200).json(imageRecipe);
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
   createUserController,
   findUserController,
@@ -96,5 +108,5 @@ module.exports = {
   findIdController,
   editRecipesController,
   deleteOneIdController,
-  // imagesController,
+  imagesController,
 };

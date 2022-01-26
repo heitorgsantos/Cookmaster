@@ -72,10 +72,13 @@ const deleteOneIdModel = async (id) => {
 };
 
 const imagesModel = async (id, image) => {
+  console.log(image);
   const db = await connect();
   await db.collection('recipes').updateOne(
-    { _id: id }, { $set: { image } },
+    { _id: ObjectId(id) }, { $set: { image } },
   );
+  const recipes = await findOneRecipesModel(id);
+  return recipes;
 };
 
 module.exports = {

@@ -3,13 +3,18 @@ const authService = require('../service/authService');
 const auth = (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    if (!authorization) return res.status(401).json({ message: 'missing auth token' });
+    const error = { status: 401, message: 'missing auth token' };
+    const error2 = { status: 401, message: 'jwt malformed' };
+    if (!authorization) throw error;
+    //  res.status(401).json({ message: 'missing auth token' });
     const user = authService.verifyToken(authorization);
-    if (!user) return res.status(401).json({ message: 'jwt malformed' });
+    if (!user) throw error2;
     req.user = user;
+    console.log(user, 'user AUTH');
     next();
   } catch (error) {
-    return res.status(401).json({ message: 'Falha na autenticação' });
+    // return res.status(401).json({ message: 'Falha na autenticação' });
+    return res.status(error.status).json(error.message);
   }
 };
 

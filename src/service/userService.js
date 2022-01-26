@@ -92,9 +92,10 @@ const deleteOneIdService = async (id) => {
   await deleteOneIdModel(ObjectId(id));
 };
 
-const imagesService = async (id, image) => {
+const imagesService = async (id, filename) => {
+  const URL = `localhost:3000/src/uploads/${filename}`;
   if (!ObjectId.isValid(id)) return alert('not found', 401);
-  const imageRecipe = await imagesModel(ObjectId(id), image);
+  const imageRecipe = await imagesModel(id, URL);
   return imageRecipe;
 };
 
