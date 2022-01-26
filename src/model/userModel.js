@@ -50,8 +50,19 @@ const findOneRecipesModel = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const conn = await connect();
   const findId = await conn.collection('recipes').findOne({ _id: ObjectId(id) });
-  console.log(findId, 'entrou no model');
   return findId;
+};
+
+const editRecipesModel = async (id, recipe) => {
+  // if (!ObjectId.isValid(id)) return null;
+  const conn = await connect();
+  console.log(recipe, 'entrou recipe');
+  await conn.collection('recipes').updateOne({ _id: id }, { $set: { ...recipe } });
+};
+
+const deleteOneIdModel = async (id) => {
+  const conn = connect();
+   (await conn).collection('recipes').deleteOne({ _id: id });
 };
 
 module.exports = {
@@ -60,4 +71,6 @@ module.exports = {
   insertRecipesModel,
   findRecipesModel,
   findOneRecipesModel,
+  editRecipesModel,
+  deleteOneIdModel,
 };

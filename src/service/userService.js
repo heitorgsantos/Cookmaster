@@ -1,10 +1,15 @@
+const { ObjectId } = require('mongodb');
+const connection = require('../model/connection');
 const { creatUsersModel,
    findUserModel, 
    insertRecipesModel, 
    findRecipesModel, 
-   findOneRecipesModel } = require('../model/userModel');
+   findOneRecipesModel, 
+   editRecipesModel, 
+   deleteOneIdModel } = require('../model/userModel');
 const authService = require('./authService');
 
+// função de erro
 const alert = (message = 'Invalid entries. Try again.', status = 400) => ({
   err: {
     message,
@@ -20,6 +25,9 @@ const validateEmail = (email) => {
 // função para validar dados
 const validation = (email, name, password) => {
   if (!name || !email || !password) return true;
+};
+const validRecipes = (name, ingredients, preparation) => {
+  if (!name || !ingredients || !preparation) return true;
 };
 
 // const validationTwo = (email, password) => {
@@ -69,8 +77,20 @@ const findRecipesService = async () => {
 const findOneService = async (id) => {
   const findId = await findOneRecipesModel(id);
   if (!findId) return alert('recipe not found', 404);
-  console.log(findId, 'entrou no service');
   return { findId };
+};
+
+const editRecipesService = async (id, recipe, user) => {
+  if (!ObjectId.isValid(id)) alert('recipe not found', 401);
+  if (validRecipes(recipe)) alert('Invalid entries. Tray again.', 401);
+  await editRecipesModel(ObjectId(id), recipe);
+  const { _id: userId } = user.data; 
+  return { _id: id, ...recipe, userId };
+};
+
+const deleteOneIdService = async (id) => {
+  if (!ObjectId.isValid(id)) return alert('recipe not found', 401);
+  await deleteOneIdModel(ObjectId(id));
 };
 
 module.exports = {
@@ -79,4 +99,6 @@ module.exports = {
   insertRecipesService,
   findRecipesService,
   findOneService,
+  editRecipesService,
+  deleteOneIdService,
 };

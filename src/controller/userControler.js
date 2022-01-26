@@ -3,7 +3,9 @@ const {
   findUserService, 
   insertRecipesService, 
   findRecipesService, 
-  findOneService } = require('../service/userService');
+  findOneService, 
+  editRecipesService, 
+  deleteOneIdService } = require('../service/userService');
 
 const createUserController = async (req, res, _next) => {
   const { email, name, password, role } = req.body;
@@ -58,9 +60,29 @@ const findIdController = async (req, res) => {
   const { id } = req.params;
   try {
     const { err, status, findId } = await findOneService(id);
-    console.log(err, status, findId, 'findiId');
     if (err) return res.status(status).json(err);
     return res.status(200).json(findId);
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const editRecipesController = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const foundId = await editRecipesService(id, req.body, req.user);
+    console.log(foundId, 'entrou no controller');
+    return res.status(200).json(foundId);
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const deleteOneIdController = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const recipe = await deleteOneIdService(id);
+    return res.status(204).json(recipe);
   } catch (error) {
     return error.message;
   }
@@ -72,4 +94,6 @@ module.exports = {
   insertRecipesController,
   findRecipesController,
   findIdController,
+  editRecipesController,
+  deleteOneIdController,
 };

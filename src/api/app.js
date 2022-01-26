@@ -4,7 +4,8 @@ const {
    findUserController, 
    insertRecipesController, 
    findRecipesController, 
-   findIdController } = require('../controller/userControler');
+   findIdController, 
+   deleteOneIdController} = require('../controller/userControler');
 const { auth, withOutLogin } = require('../middlewares/auth');
 
 const app = express();
@@ -24,6 +25,10 @@ app.post('/recipes', auth, insertRecipesController);
 app.get('/recipes', withOutLogin, findRecipesController);
 
 app.get('/recipes/:id', withOutLogin, findIdController);
+
+app.put('/recipes/:id', auth, findIdController);
+
+app.delete('/recipes/:id', auth, deleteOneIdController);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 
