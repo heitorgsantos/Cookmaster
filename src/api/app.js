@@ -5,7 +5,7 @@ const {
    insertRecipesController, 
    findRecipesController, 
    findIdController, 
-   deleteOneIdController} = require('../controller/userControler');
+   deleteOneIdController } = require('../controller/userControler');
 const { auth, withOutLogin } = require('../middlewares/auth');
 
 const app = express();

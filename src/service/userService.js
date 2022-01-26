@@ -1,5 +1,4 @@
 const { ObjectId } = require('mongodb');
-const connection = require('../model/connection');
 const { creatUsersModel,
    findUserModel, 
    insertRecipesModel, 
