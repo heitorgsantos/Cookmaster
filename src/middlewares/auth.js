@@ -10,7 +10,6 @@ const auth = (req, res, next) => {
     const user = authService.verifyToken(authorization);
     if (!user) throw error2;
     req.user = user;
-    console.log(user, 'user AUTH');
     next();
   } catch (error) {
     // return res.status(401).json({ message: 'Falha na autenticação' });
