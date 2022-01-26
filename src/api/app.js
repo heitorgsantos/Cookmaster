@@ -11,6 +11,7 @@ const {
    editRecipesController, 
    imagesController } = require('../controller/userControler');
 const { auth, withOutLogin } = require('../middlewares/auth');
+const error = require('../middlewares/error');
 
 const app = express();
 app.use(express.json());
@@ -37,6 +38,7 @@ app.delete('/recipes/:id', auth, deleteOneIdController);
 
 app.put('/recipes/:id/image/', auth, uploads, imagesController);
 
+app.use(error);
 // Não remover esse end-point, ele é necessário para o avaliador
 
 module.exports = app;

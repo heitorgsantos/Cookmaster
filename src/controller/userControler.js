@@ -89,14 +89,14 @@ const deleteOneIdController = async (req, res) => {
   }
 };
 
-const imagesController = async (req, res) => {
+const imagesController = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { filename } = req.file;
     const imageRecipe = await imagesService(id, filename);
     return res.status(200).json(imageRecipe);
   } catch (error) {
-    return error.message;
+    next(error);
   }
 };
 
