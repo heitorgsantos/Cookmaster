@@ -6,7 +6,7 @@ const {
   findOneService, 
   editRecipesService, 
   deleteOneIdService, 
-  imagesService } = require('../service/userService');
+   } = require('../service/userService');
 
 const createUserController = async (req, res, _next) => {
   const { email, name, password, role } = req.body;
