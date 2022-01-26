@@ -5,7 +5,8 @@ const {
   findRecipesService, 
   findOneService, 
   editRecipesService, 
-  deleteOneIdService } = require('../service/userService');
+  deleteOneIdService, 
+  imagesService } = require('../service/userService');
 
 const createUserController = async (req, res, _next) => {
   const { email, name, password, role } = req.body;
@@ -70,9 +71,8 @@ const findIdController = async (req, res) => {
 const editRecipesController = async (req, res) => {
   const { id } = req.params;
   try {
-    const foundId = await editRecipesService(id, req.body, req.user);
-    console.log(foundId, 'entrou no controller');
-    return res.status(200).json(foundId);
+    const recipe = await editRecipesService(id, req.body);
+    return res.status(200).json(recipe);
   } catch (error) {
     return error.message;
   }
@@ -96,4 +96,5 @@ module.exports = {
   findIdController,
   editRecipesController,
   deleteOneIdController,
+  // imagesController,
 };

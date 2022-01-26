@@ -5,7 +5,8 @@ const { creatUsersModel,
    findRecipesModel, 
    findOneRecipesModel, 
    editRecipesModel, 
-   deleteOneIdModel } = require('../model/userModel');
+   deleteOneIdModel, 
+   imagesModel } = require('../model/userModel');
 const authService = require('./authService');
 
 // função de erro
@@ -79,17 +80,22 @@ const findOneService = async (id) => {
   return { findId };
 };
 
-const editRecipesService = async (id, recipe, user) => {
-  if (!ObjectId.isValid(id)) alert('recipe not found', 401);
+const editRecipesService = async (id, recipe) => {
+  if (!ObjectId.isValid(id)) alert('recipe not found', 404);
   if (validRecipes(recipe)) alert('Invalid entries. Tray again.', 401);
-  await editRecipesModel(ObjectId(id), recipe);
-  const { _id: userId } = user.data; 
-  return { _id: id, ...recipe, userId };
+  const recipes = await editRecipesModel(id, recipe);
+  return recipes; 
 };
 
 const deleteOneIdService = async (id) => {
   if (!ObjectId.isValid(id)) return alert('recipe not found', 401);
   await deleteOneIdModel(ObjectId(id));
+};
+
+const imagesService = async (id, image) => {
+  if (!ObjectId.isValid(id)) return alert('not found', 401);
+  const imageRecipe = await imagesModel(ObjectId(id), image);
+  return imageRecipe;
 };
 
 module.exports = {
@@ -100,4 +106,5 @@ module.exports = {
   findOneService,
   editRecipesService,
   deleteOneIdService,
+  imagesService,
 };
