@@ -15,7 +15,7 @@ const error = require('../middlewares/error');
 
 const app = express();
 app.use(express.json());
-app.use('/images', express.static(path.join(__dirname, '..', '/uploads')));
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -36,7 +36,7 @@ app.put('/recipes/:id', auth, editRecipesController);
 
 app.delete('/recipes/:id', auth, deleteOneIdController);
 
-app.put('/recipes/:id/image/', auth, uploads, imagesController);
+app.put('/recipes/:id/image', auth, uploads, imagesController);
 
 app.use(error);
 // Não remover esse end-point, ele é necessário para o avaliador
